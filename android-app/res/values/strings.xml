@@ -15,10 +15,5 @@
     <string name="btn_ok">Proceed</string>
     <string name="btn_cancel">Cancel</string>
     <string name="show_notification">Show Notification</string>
-    <string name="notification_title">"There is someone at the door !"</string>
-    <string name="notification_content">"This guy is at the door :"</string>
-    <string name="btn_open">Open</string>
-    <string name="btn_dont_open">"Don't Open"</string>
-    <string name="btn_talk">Talk</string>
 
 </resources>
