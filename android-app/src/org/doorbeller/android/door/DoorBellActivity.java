@@ -16,9 +16,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.Parameters;
@@ -38,6 +41,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.androidbridge.SendMMS3.APNHelper;
@@ -113,19 +117,20 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 
 	private int mPreviewHeight;
 
+	private ImageView mPicture;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.video_door);
 
+		mPicture = (ImageView) findViewById(R.id.picture);
 		mLocalViewSurface = (SurfaceView) findViewById(R.id.video_local);
-		
+
 		mPreviewHolder = mLocalViewSurface.getHolder();
 		mPreviewHolder.addCallback(this);
 		mPreviewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
-		
-		
 		// Set the hardware buttons to control the music
 		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		// Load the sound
@@ -138,7 +143,7 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 			}
 		});
 		mSoundID = mSoundPool.load(this, R.raw.old_phone_ringing, 1);
-
+		mSoundPool.setLoop(mSoundID, -1);
 	}
 
 	@Override
@@ -151,40 +156,22 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 	@Override
 	protected void onPause() {
 		Log.v(TAG, "onPause");
-		if (mSoundPool != null) {
-			mSoundPool.stop(mSoundID);
-		}
+		unsetSoundAndVideo();
 
 		if (mReceiver != null) {
 			unregisterReceiver(mReceiver);
 		}
 
-		if (mInPreview) {
-			mCamera.stopPreview();
-		}
-
-		if (mCamera != null) {
-			mCamera.release();
-			mCamera = null;
-		}
-		mInPreview = false;
-
 		super.onPause();
 
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-
-	}
+	}	
 
 	public void onEvent(OpenDoorEvent e) {
 		openDoor();
 	}
 
 	public void onDoorBellClick(View target) {
-		// connectToAPN();
+		connectToAPN();
 
 		try {
 			mCamera = Camera.open(CameraInfo.CAMERA_FACING_BACK);
@@ -229,7 +216,7 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 			}
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// connection failed
 			e.printStackTrace();
 		}
 	}
@@ -237,7 +224,7 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 	protected void endMmsConnectivity() {
 		// End the connectivity
 		try {
-			Log.v(TAG, "endMmsConnectivity");
+			Log.v(TAG, "4. endMmsConnectivity");
 			if (mConnMgr != null) {
 				mConnMgr.stopUsingNetworkFeature(
 						ConnectivityManager.TYPE_MOBILE,
@@ -292,8 +279,8 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 	}
 
 	public void onPreviewFrame(byte[] data, Camera camera) {
-		if (isConnectedToAPN()) {
-			Log.d(TAG, "2. connection changed");
+		if (isConnectedToAPN() && !mSending) {
+			Log.d(TAG, "preview image while connected");
 
 			Parameters parameters = camera.getParameters();
 			int imageFormat = parameters.getPreviewFormat();
@@ -318,9 +305,15 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
-				trySendMMs(outStream.toByteArray());
+				
+				
+				byte[] bs = outStream.toByteArray();
+				Bitmap bm = BitmapFactory.decodeByteArray(bs, 0, bs.length);
+				mPicture.setBackgroundDrawable(new BitmapDrawable(bm));
+				trySendMMs(bs);
 			}
+		} else {
+			// Log.d(TAG, "preview image while disconnected");
 		}
 	}
 
@@ -330,7 +323,7 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 
 	private void sendMMSUsingNokiaAPI(byte[] bs) {
 		// Magic happens here.
-
+		Log.v(TAG, "3. sending MMS");
 		MMMessage mm = new MMMessage();
 		setMessage(mm);
 		addContents(mm, bs);
@@ -378,6 +371,8 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 				} else {
 					// kill dew :D hhaha
 				}
+			} else {
+				Log.v(TAG, "No MMS APNs configured");
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -454,7 +449,7 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 				return;
 			}
 
-			Log.d(TAG, "2. connection changed");
+			Log.d(TAG, "2a. connection changed");
 			boolean noConnectivity = intent.getBooleanExtra(
 					ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
 
@@ -476,17 +471,34 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 						.getParcelableExtra(ConnectivityManager.EXTRA_OTHER_NETWORK_INFO);
 
 			}
-
+			Log.d(TAG, "2b. connection changed : " + mState.name());
 		}
 	};
 
 	protected void openDoor() {
 		Log.v(TAG, "opening door");
-		mSoundPool.stop(mSoundID);
-		mCamera.stopPreview();	
-		mCamera.release();
-		mCamera = null;
+		unsetSoundAndVideo();
+
 		// IO signal to door;
+
+	}
+
+	private void unsetSoundAndVideo() {
+
+		if (mSoundPool != null) {
+			mSoundPool.stop(mSoundID);
+		}
+
+		if (mCamera != null) {
+			if (mInPreview) {
+				mCamera.stopPreview();
+			}
+			mCamera.setPreviewCallback(null);
+			mCamera.release();
+			mCamera = null;
+		}
+
+		mInPreview = false;
 
 	}
 
@@ -536,6 +548,7 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 
 	private void startPreview() {
 		if (mCameraConfigured && mCamera != null) {
+			mCamera.setPreviewCallback(this);
 			mCamera.startPreview();
 			mInPreview = true;
 			mPendingPreview = false;
