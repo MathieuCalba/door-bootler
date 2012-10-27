@@ -1,5 +1,7 @@
 package org.doorbeller.android.door;
 
+import java.nio.channels.Channel;
+
 import org.doorbeller.android.PusherConstants;
 import org.doorbeller.android.R;
 import org.json.JSONObject;
@@ -10,17 +12,10 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.SurfaceView;
-import android.widget.Toast;
 
-import com.justinschultz.pusherclient.ChannelListener;
-import com.justinschultz.pusherclient.Pusher;
-import com.justinschultz.pusherclient.Pusher.Channel;
-import com.justinschultz.pusherclient.PusherListener;
-
-public class DoorBellActivity extends Activity implements PusherListener {
+public class DoorBellActivity extends Activity {
 
 	private static final String TAG = DoorBellActivity.class.getSimpleName();
 
@@ -42,7 +37,7 @@ public class DoorBellActivity extends Activity implements PusherListener {
 
 	private int mSoundID;
 
-	private Pusher mPusher;
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -75,27 +70,8 @@ public class DoorBellActivity extends Activity implements PusherListener {
 	}
 
 	public void connectToPusher() {
-		mPusher = new Pusher(PusherConstants.PUSHER_API_KEY);
-		mPusher.setPusherListener(this);
-		mPusher.connect();		
+		
 		mSoundPool.play(mSoundID, 1, 1, 1, 0, 1f);
-	}
-
-	@Override
-	public void onConnect(String socketId) {
-		mSubscribed = true;
-		mSocketId = socketId;
-		mChallengeReceiverDisplayName = "Skillsmatter";
-		// Private Channel
-		channel = mPusher.subscribe(PusherConstants.PUSHER_CHANNEL);
-		channel.send("bell-ringing", new JSONObject());
-
-		channel.bind("open-door-request", new ChannelListener() {
-			@Override
-			public void onMessage(String message) {
-				openDoor();
-			}
-		});		
 	}
 
 	protected void openDoor() {
@@ -104,14 +80,5 @@ public class DoorBellActivity extends Activity implements PusherListener {
 		
 	}
 
-	@Override
-	public void onMessage(String message) {
-		Log.v(TAG, message);
-	}
-
-	@Override
-	public void onDisconnect() {
-		mSubscribed = false;
-	}
 
 }
