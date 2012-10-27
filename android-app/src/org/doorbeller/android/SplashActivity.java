@@ -7,13 +7,9 @@ import jibe.sdk.client.simple.SimpleApiStateListener;
 import jibe.sdk.client.simple.arena.ArenaHelper;
 import jibe.sdk.client.simple.myprofile.MyProfileHelper;
 import jibe.sdk.client.simple.myprofile.MyProfileHelper.OnlineStateListener;
-
-import org.doorbeller.android.office.NotificationHelper;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -228,8 +224,4 @@ public class SplashActivity extends Activity {
 		}
 	};
 
-	public void onClickNotification(View v) {
-		// TODO : replace with real photo
-		NotificationHelper.showNotification(getApplicationContext(), BitmapFactory.decodeResource(getResources(), R.drawable.app_logo));
-	}
 }

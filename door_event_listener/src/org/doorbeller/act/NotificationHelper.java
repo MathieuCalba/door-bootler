@@ -1,6 +1,6 @@
-package org.doorbeller.android.office;
+package org.doorbeller.act;
 
-import org.doorbeller.android.R;
+import org.doorbeller.R;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -20,7 +20,7 @@ public class NotificationHelper {
 		PendingIntent pIntent = PendingIntent.getActivity(ctx, 0, new Intent(ctx, OfficeActivity.class), 0);
 		// TODO : depending on how we notify the door phone about the
 		// instruction to open the door, we need a PendingIntent to a
-		// BroadcastReceiver or to a Service
+		// BroadcastReceiver that sends an sms to open the door
 		PendingIntent pIntentOpen = PendingIntent.getActivity(ctx, 0, new Intent(ctx, OfficeActivity.class), 0);
 
 		NotificationCompat2.Builder notifBuilder = new NotificationCompat2.Builder(ctx);
@@ -28,7 +28,7 @@ public class NotificationHelper {
 		notifBuilder.setContentTitle(title);
 		notifBuilder.setAutoCancel(true);
 		notifBuilder.setLargeIcon(bitmap);
-		notifBuilder.setSmallIcon(R.drawable.app_logo);
+		notifBuilder.setSmallIcon(R.drawable.ic_launcher);
 		notifBuilder.setContentIntent(pIntent);
 		notifBuilder.setStyle(new NotificationCompat2.BigPictureStyle().bigPicture(bitmap).setBigContentTitle(content));
 		notifBuilder.setPriority(NotificationCompat2.PRIORITY_MAX);
