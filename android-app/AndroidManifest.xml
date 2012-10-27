@@ -23,16 +23,16 @@
         
         <receiver android:name="org.doorbeller.android.ChallengeReceiver">
             <intent-filter>
-                <action android:name="jibe.intent.action.challenge.9fab66429fda410593671f96596e62f6" />
-                <action android:name="jibe.intent.action.incomingDataSession.9fab66429fda410593671f96596e62f6" />
+                <action android:name="jibe.intent.action.challenge" />
+                <action android:name="jibe.intent.action.incomingDataSession" />
             </intent-filter>
         </receiver>
         <activity android:name="org.doorbeller.android.ViewMeActivity" android:launchMode="singleTop" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <action android:name="jibe.intent.action.incomingDataSession.9fab66429fda410593671f96596e62f6" />
-                <action android:name="jibe.intent.action.challenge.9fab66429fda410593671f96596e62f6" />
+                <action android:name="jibe.intent.action.incomingDataSession" />
+                <action android:name="jibe.intent.action.challenge" />
                 </intent-filter>
         </activity>
         

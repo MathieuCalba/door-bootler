@@ -9,6 +9,6 @@ public class JibeApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		// set up App-ID and App-Secret in one central place.
-		Config.getInstance().setAppToAppIdentifier("9fab66429fda410593671f96596e62f6", "7838e75b140d4ae890b71a85aef1b45b");
+		Config.getInstance().setAppToAppIdentifier("83f36202e79f4a8191a1b3fd06b4019b", "9c777547307c42f78def6920bb1b4a8d");
 	}
 }
