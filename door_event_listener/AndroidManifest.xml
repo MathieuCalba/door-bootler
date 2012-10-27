@@ -13,12 +13,17 @@
         android:icon="@drawable/ic_launcher"
         android:theme="@style/AppTheme">
         
-        <receiver android:name=".act.SMSListener" android:exported="true" > 
+        <receiver android:name=".act.SMSListener"> 
 			<intent-filter android:priority="999" >
         		<action android:name="android.provider.Telephony.SMS_RECEIVED" />
     		</intent-filter>
 		</receiver>
-        
+
+        <receiver android:name=".act.SMSSender"> 
+			<intent-filter android:priority="999" >
+        		<action android:name="org.doorbeller.action.OPEN" />
+    		</intent-filter>
+		</receiver>
         
         <activity android:name=".act.Listener">
             <intent-filter>

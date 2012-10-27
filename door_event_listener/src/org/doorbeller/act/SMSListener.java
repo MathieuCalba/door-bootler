@@ -20,26 +20,29 @@ public class SMSListener extends BroadcastReceiver{
     @Override
 	public void onReceive( Context context, Intent intent ) {
         Bundle extras = intent.getExtras();
-        String messages = "";
+        String message = "";
         
         if ( extras != null ) {
             Object[] smsExtra = (Object[]) extras.get( SMS_EXTRA_NAME );
-            
             for ( int i = 0; i < smsExtra.length; ++i ) {
-            	SmsMessage sms = SmsMessage.createFromPdu((byte[])smsExtra[i]);
-            	String body = sms.getMessageBody().toString();
-            	String address = sms.getOriginatingAddress();
-                messages += "SMS from " + address + " :\n";                    
-                messages += body + "\n";
-                Log.i("NOVODA", "FROM:["+address+"] MSG:["+body+"]");
+            	message = extractSMSMessage(message, smsExtra, i);
+            	Toast.makeText( context, message, Toast.LENGTH_SHORT ).show();
             }
-            
-            Toast.makeText( context, messages, Toast.LENGTH_SHORT ).show();
         }
         
         // WARNING!!! 
         // If you uncomment next line then received SMS will not be put to incoming.
         // Be careful!
         // this.abortBroadcast(); 
+	}
+
+	private String extractSMSMessage(String messages, Object[] smsExtra, int i) {
+		SmsMessage sms = SmsMessage.createFromPdu((byte[])smsExtra[i]);
+		String body = sms.getMessageBody().toString();
+		String address = sms.getOriginatingAddress();
+		messages += "SMS from " + address + " :\n";                    
+		messages += body + "\n";
+		Log.i("NOVODA", "FROM:["+address+"] MSG:["+body+"]");
+		return messages;
 	}
 }
