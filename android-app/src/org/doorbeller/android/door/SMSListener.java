@@ -11,7 +11,7 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 import de.greenrobot.event.EventBus;
 
-public class SMSListener extends BroadcastReceiver{
+public class SMSListener extends BroadcastReceiver {
 
     private SharedPreferences preferences;
     
