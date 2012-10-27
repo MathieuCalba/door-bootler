@@ -37,13 +37,19 @@ void readBuzzer(){
     buttonState = reading;
     
         //For Debugging
+        
+        //Temp for error motion of cable handling:
+        if (buttonState == 1){
+        
               Serial.println("Buzzer Activated!!");
               Serial.println(buttonState);     
+        }
           
           delay(1000); //Don't need to listen too much
           
   //This is where we process communication to Android to say that the buzzer has been activated
   
+
 
   }
   
