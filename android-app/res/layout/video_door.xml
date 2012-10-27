@@ -21,21 +21,12 @@
 
         <Button
             android:id="@+id/btn_camera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onSwitchCamClick"
-            android:text="Cam" >
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"            
+            android:onClick="onDoorBellClick"
+            android:text="Ring" >
         </Button>
-
-        <Button
-            android:id="@+id/btn_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onSendTimestampClick"
-            android:text="Send TS" >
-        </Button>
+       
     </LinearLayout>
 
 </FrameLayout>
