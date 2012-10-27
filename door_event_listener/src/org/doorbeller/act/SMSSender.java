@@ -25,8 +25,8 @@ public class SMSSender extends BroadcastReceiver{
 
 	private void sendSMS() {
 		Log.i("NOVODA", "Sending SMS");
-		//		SmsManager smsManager = SmsManager.getDefault();
-		//		smsManager.sendTextMessage("07981932411", null, "blah blah blah blah", null, null);
+		// SmsManager smsManager = SmsManager.getDefault();
+		// smsManager.sendTextMessage("07981932411", null, "blah blah blah blah", null, null);
 	}
 
 }

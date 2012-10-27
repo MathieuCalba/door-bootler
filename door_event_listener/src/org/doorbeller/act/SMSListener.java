@@ -5,7 +5,11 @@ import org.doorbeller.R;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
@@ -15,6 +19,8 @@ public class SMSListener extends BroadcastReceiver {
 
 	public static final String SMS_EXTRA_NAME = "pdus";
 	public static final String SMS_URI = "content://sms";
+
+	private int mSoundID;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -30,9 +36,20 @@ public class SMSListener extends BroadcastReceiver {
 
 		if (!TextUtils.isEmpty(message) && message.contains("Ding Dong")) {
 			// TODO : get the real picture from MMS to display
-			NotificationHelper.showNotification(context, BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher));
-			// TODO : we need to store this picture somewhere, so we can display
-			// it later
+			Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
+			NotificationHelper.showNotification(context, bitmap);
+			// TODO : we need to store this picture somewhere, so we can display it later
+
+			final SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+			soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener() {
+				@Override
+				public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+					soundPool.play(mSoundID, 1, 1, 1, 0, 1f);
+				}
+			});
+			mSoundID = soundPool.load(context, R.raw.old_phone_ringing, 1);
+
+			// TODO : add Vibrations
 
 			this.abortBroadcast();
 		}

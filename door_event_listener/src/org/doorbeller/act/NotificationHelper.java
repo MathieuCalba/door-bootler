@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 import com.jakewharton.notificationcompat2.NotificationCompat2;
 
@@ -23,9 +24,9 @@ public class NotificationHelper {
 		NotificationCompat2.Builder notifBuilder = new NotificationCompat2.Builder(ctx);
 		notifBuilder.setTicker(title);
 		notifBuilder.setContentTitle(title);
-		// notifBuilder.setAutoCancel(true);
 		notifBuilder.setLargeIcon(bitmap);
 		notifBuilder.setSmallIcon(R.drawable.ic_launcher);
+		notifBuilder.setSound(Uri.parse("file:///android_asset/old_phone_ringing.mp3"));
 		notifBuilder.setContentIntent(pIntentTalk);
 		notifBuilder.setStyle(new NotificationCompat2.BigPictureStyle().bigPicture(bitmap).setBigContentTitle(content));
 		notifBuilder.setPriority(NotificationCompat2.PRIORITY_MAX);

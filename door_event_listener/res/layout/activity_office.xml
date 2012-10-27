@@ -6,9 +6,14 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:text="display the picture in big ? or the video" />
+
+    <ImageView
+        android:id="@+id/door_picture"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <LinearLayout
         android:id="@+id/buttons"
@@ -16,7 +21,7 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/btn_camera"
+            android:id="@+id/btn_dont_open"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -25,7 +30,7 @@
         </Button>
 
         <Button
-            android:id="@+id/btn_send"
+            android:id="@+id/btn_open"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
