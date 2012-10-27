@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
+    android:orientation="vertical" >
 
-	<Button
-	    android:id="@+id/friendPickerButton"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:text="@string/launch_friend_picker"
-	    android:enabled="false"
-	    android:onClick="onClickLaunchFriendPicker" />
+    <Button
+        android:id="@+id/friendPickerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:onClick="onClickLaunchFriendPicker"
+        android:text="@string/launch_friend_picker" />
+
+    <Button
+        android:id="@+id/showNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="true"
+        android:onClick="onClickNotification"
+        android:text="@string/show_notification" />
 
 </LinearLayout>
-
