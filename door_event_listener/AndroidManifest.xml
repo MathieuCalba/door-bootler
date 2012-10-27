@@ -15,27 +15,35 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <receiver
-            android:name=".act.SMSListener"
-            android:exported="true" >
+        <receiver android:name=".act.SMSListener" >
             <intent-filter android:priority="999" >
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".act.SMSSender" >
+        <receiver
+            android:name=".act.SMSSender"
+            android:exported="false" >
             <intent-filter android:priority="999" >
                 <action android:name="org.doorbeller.action.OPEN" />
             </intent-filter>
         </receiver>
-
-        <activity android:name=".act.Listener" >
+        <receiver
+            android:name=".act.OpeningDoor"
+            android:exported="false" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="org.doorbeller.action.OPEN_DOOR" />
             </intent-filter>
-        </activity>
+        </receiver>
+
+        <!-- <activity android:name=".act.Listener" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+        <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
         <activity android:name=".act.OfficeActivity" />
     </application>
 

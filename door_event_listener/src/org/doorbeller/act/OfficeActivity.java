@@ -3,6 +3,7 @@ package org.doorbeller.act;
 import org.doorbeller.R;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -26,7 +27,7 @@ public class OfficeActivity extends Activity {
 	}
 
 	public void openDoor() {
-		// TODO : sends an SMS to open the door
+		sendBroadcast(new Intent(OpeningDoor.ACTION));
 		finish();
 	}
 
