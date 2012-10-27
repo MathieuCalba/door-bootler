@@ -17,3 +17,5 @@
 
 .metadata
 */.settings
+*/.DS_Store
+*/.classpath
