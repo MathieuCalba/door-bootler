@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ViewMe</string>
+    <string name="app_name">Door Beller</string>
     <string name="launch_friend_picker">Launch Arena Friend Picker</string>
     <string name="connection_failed">Connection to Jibe could not be established"</string>
     <string name="connection_online">Connection to Jibe is online. You are ready to rumble!"</string>
