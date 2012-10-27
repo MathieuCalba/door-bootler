@@ -30,15 +30,24 @@ void readBuzzer(){
 
   if (reading != lastButtonState) {
     lastDebounceTime = millis();
+    
   } 
   
   if ((millis() - lastDebounceTime) > debounceDelay) {
     buttonState = reading;
-  }
-
-              Serial.println("Buzzer Activated!!");         
+    
+        //For Debugging
+              Serial.println("Buzzer Activated!!");
+              Serial.println(buttonState);     
+          
+          delay(1000); //Don't need to listen too much
+          
   //This is where we process communication to Android to say that the buzzer has been activated
+  
+
+  }
   
 
   lastButtonState = reading;
 }
+
