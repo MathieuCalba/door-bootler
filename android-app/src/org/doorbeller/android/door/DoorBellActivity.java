@@ -1,17 +1,14 @@
 package org.doorbeller.android.door;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.channels.Channel;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 
-import org.doorbeller.android.R;
+import org.doorbeller.android.door.events.OpenDoorEvent;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -19,8 +16,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
@@ -34,12 +29,9 @@ import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
-import android.provider.MediaStore.Images.Media;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -57,6 +49,8 @@ import com.androidbridge.nokia.MMEncoder;
 import com.androidbridge.nokia.MMMessage;
 import com.androidbridge.nokia.MMResponse;
 import com.androidbridge.nokia.MMSender;
+
+import de.greenrobot.event.EventBus;
 
 public class DoorBellActivity extends Activity implements PreviewCallback,
 		Callback {
@@ -134,6 +128,13 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 	}
 
 	@Override
+	protected void onResume() {	
+		super.onResume();
+		
+		EventBus.getDefault().register(this, OpenDoorEvent.class);
+	}
+	
+	@Override
 	protected void onPause() {
 
 		mSoundPool.stop(mSoundID);
@@ -156,6 +157,11 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 
 	}
 
+	
+	public void onEvent(OpenDoorEvent e){
+		openDoor();
+	}	
+	
 	public void onDoorBellClick(View target) {
 		connectToAPN();
 
