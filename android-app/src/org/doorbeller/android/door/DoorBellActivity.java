@@ -105,12 +105,26 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 
 	private boolean mCameraConfigured;
 
+	private boolean mPendingPreview;
+
+	private boolean mPreviewConfigured;
+
+	private int mPreviewWidth;
+
+	private int mPreviewHeight;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.video_door);
 
 		mLocalViewSurface = (SurfaceView) findViewById(R.id.video_local);
+		
+		mPreviewHolder = mLocalViewSurface.getHolder();
+		mPreviewHolder.addCallback(this);
+		mPreviewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+		
 		
 		// Set the hardware buttons to control the music
 		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -128,23 +142,31 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 	}
 
 	@Override
-	protected void onResume() {	
+	protected void onResume() {
 		super.onResume();
-		
+
 		EventBus.getDefault().register(this, OpenDoorEvent.class);
 	}
-	
+
 	@Override
 	protected void onPause() {
+		Log.v(TAG, "onPause");
+		if (mSoundPool != null) {
+			mSoundPool.stop(mSoundID);
+		}
 
-		mSoundPool.stop(mSoundID);
+		if (mReceiver != null) {
+			unregisterReceiver(mReceiver);
+		}
 
 		if (mInPreview) {
 			mCamera.stopPreview();
 		}
 
-		mCamera.release();
-		mCamera = null;
+		if (mCamera != null) {
+			mCamera.release();
+			mCamera = null;
+		}
 		mInPreview = false;
 
 		super.onPause();
@@ -157,22 +179,26 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 
 	}
 
-	
-	public void onEvent(OpenDoorEvent e){
+	public void onEvent(OpenDoorEvent e) {
 		openDoor();
-	}	
-	
-	public void onDoorBellClick(View target) {
-		connectToAPN();
+	}
 
-		mCamera = Camera.open(CameraInfo.CAMERA_FACING_BACK);	
-		
-		mPreviewHolder = mLocalViewSurface.getHolder();
-		mPreviewHolder.addCallback(this);
-		mPreviewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);					
-		
-		mLocalViewSurface.invalidate();
-		
+	public void onDoorBellClick(View target) {
+		// connectToAPN();
+
+		try {
+			mCamera = Camera.open(CameraInfo.CAMERA_FACING_BACK);
+
+			if (mPreviewConfigured) {
+				initPreview(mPreviewWidth, mPreviewHeight);
+				startPreview();
+			} else {
+				mPendingPreview = true;
+			}
+		} catch (RuntimeException e) {
+			Log.v(TAG, "Camera failed", e);
+		}
+
 		mSoundPool.play(mSoundID, 1, 1, 1, 0, 1f);
 
 	}
@@ -455,7 +481,11 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 	};
 
 	protected void openDoor() {
+		Log.v(TAG, "opening door");
 		mSoundPool.stop(mSoundID);
+		mCamera.stopPreview();	
+		mCamera.release();
+		mCamera = null;
 		// IO signal to door;
 
 	}
@@ -508,6 +538,7 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 		if (mCameraConfigured && mCamera != null) {
 			mCamera.startPreview();
 			mInPreview = true;
+			mPendingPreview = false;
 		}
 	}
 
@@ -515,8 +546,14 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
 		Log.v(TAG, "init camera preview");
-		initPreview(width, height);		
-		startPreview();
+		initPreview(width, height);
+		mPreviewWidth = width;
+		mPreviewHeight = height;
+		mPreviewConfigured = true;
+
+		if (mPendingPreview) {
+			startPreview();
+		}
 	}
 
 	@Override
