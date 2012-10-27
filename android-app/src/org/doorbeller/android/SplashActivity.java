@@ -7,10 +7,13 @@ import jibe.sdk.client.simple.SimpleApiStateListener;
 import jibe.sdk.client.simple.arena.ArenaHelper;
 import jibe.sdk.client.simple.myprofile.MyProfileHelper;
 import jibe.sdk.client.simple.myprofile.MyProfileHelper.OnlineStateListener;
-import org.doorbeller.android.R;
+
+import org.doorbeller.android.office.NotificationHelper;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -41,6 +44,7 @@ public class SplashActivity extends Activity {
 		setContentView(R.layout.splash);
 	}
 
+	@Override
 	public void onStart() {
 		super.onStart();
 
@@ -84,6 +88,7 @@ public class SplashActivity extends Activity {
 		builder.setTitle(R.string.dlg_download_title);
 		builder.setMessage(R.string.dlg_download_message);
 		builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				ArenaHelper.openGooglePlayPage(SplashActivity.this);
 			}
@@ -91,10 +96,11 @@ public class SplashActivity extends Activity {
 
 		builder.setNegativeButton(R.string.btn_cancel,
 				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						SplashActivity.this.finish();
-					}
-				});
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				SplashActivity.this.finish();
+			}
+		});
 
 		builder.setCancelable(false);
 
@@ -113,7 +119,7 @@ public class SplashActivity extends Activity {
 		mArenaHelper = new ArenaHelper(this, mArenaHelperListener);
 	}
 
-	private SimpleApiStateListener mMyProfileHelperListener = new SimpleApiStateListener() {
+	private final SimpleApiStateListener mMyProfileHelperListener = new SimpleApiStateListener() {
 
 		@Override
 		public void onInitialized(SimpleApi source) {
@@ -137,7 +143,7 @@ public class SplashActivity extends Activity {
 		}
 	};
 
-	private OnlineStateListener mOnlineStateListener = new OnlineStateListener() {
+	private final OnlineStateListener mOnlineStateListener = new OnlineStateListener() {
 		@Override
 		public void onOnlineStateChanged(boolean isOnline) {
 			handleOnlineStateChange(isOnline);
@@ -157,7 +163,7 @@ public class SplashActivity extends Activity {
 		}
 	}
 
-	private Handler mHandler = new Handler() {
+	private final Handler mHandler = new Handler() {
 
 		@Override
 		public void handleMessage(Message msg) {
@@ -200,10 +206,10 @@ public class SplashActivity extends Activity {
 	private void startConnectionStartupTimer() {
 		mHandler.sendEmptyMessageAtTime(MSG_CONNECTION_TIMEOUT,
 				SystemClock.uptimeMillis()
-						+ JIBE_CONNECTION_STARTUP_TIMEOUT_MILLIS);
+				+ JIBE_CONNECTION_STARTUP_TIMEOUT_MILLIS);
 	}
 
-	private SimpleApiStateListener mArenaHelperListener = new SimpleApiStateListener() {
+	private final SimpleApiStateListener mArenaHelperListener = new SimpleApiStateListener() {
 		@Override
 		public void onInitialized(SimpleApi source) {
 			try {
@@ -221,4 +227,9 @@ public class SplashActivity extends Activity {
 			Log.e(TAG, "Failed to initialize ArenaHelper. Reason=" + reason);
 		}
 	};
+
+	public void onClickNotification(View v) {
+		// TODO : replace with real photo
+		NotificationHelper.showNotification(getApplicationContext(), BitmapFactory.decodeResource(getResources(), R.drawable.app_logo));
+	}
 }
