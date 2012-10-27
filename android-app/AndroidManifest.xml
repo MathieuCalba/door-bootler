@@ -54,6 +54,10 @@
                 <action android:name="jibe.intent.action.challenge" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".office.OfficeActivity"
+            android:label="@string/office_app"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
