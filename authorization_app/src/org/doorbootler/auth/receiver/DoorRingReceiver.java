@@ -60,6 +60,8 @@ public abstract class DoorRingReceiver extends BroadcastReceiver {
 			}
 		});
 		mSoundID = soundPool.load(context, R.raw.old_phone_ringing, 1);
+		
+		
 	}
 
 }
