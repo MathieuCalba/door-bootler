@@ -25,13 +25,7 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-<<<<<<< HEAD
-        <receiver android:name="org.doorbeller.act.receiver.NMAReceiver" >
-=======
-        <receiver
-            android:name="org.doorbootler.auth.receiver.NMAReceiver"
-            android:priority="999" >
->>>>>>> 6b0e5b61f86d162ba2397eab8f9dc18038ffbe2d
+        <receiver android:name="org.doorbootler.auth.receiver.NMAReceiver" >
             <intent-filter>
                 <action android:name="com.usk.app.notifymyandroid.NEW_NOTIFICATION" />
             </intent-filter>

@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-import org.doorbeller.R;
 import org.doorbootler.library.notifymyandroid.Constants;
 import org.doorbootler.library.notifymyandroid.NMASender;
 

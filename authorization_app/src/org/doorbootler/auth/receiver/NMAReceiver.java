@@ -1,13 +1,9 @@
 package org.doorbootler.auth.receiver;
 
-<<<<<<< HEAD
 import java.io.IOException;
 
-import org.doorbeller.R;
-import org.doorbootler.auth.box.BoxHelper;
-=======
 import org.doorbootler.auth.R;
->>>>>>> 6b0e5b61f86d162ba2397eab8f9dc18038ffbe2d
+import org.doorbootler.auth.box.BoxHelper;
 
 import android.content.Context;
 import android.content.Intent;

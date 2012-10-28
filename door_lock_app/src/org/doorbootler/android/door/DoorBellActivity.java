@@ -5,11 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.channels.Channel;
 
-import org.doorbootler.android.door.R;
 import org.doorbootler.android.door.events.OpenDoorAuthorizedEvent;
-import org.doorbootler.android.door.events.OpenDoorLockCommandEvent;
 import org.doorbootler.android.door.events.OpenDoorRequest;
-import org.doorbootler.android.door.sender.MMSSender;
+import org.doorbootler.android.door.sender.BoxSender;
 import org.doorbootler.android.door.sender.Sender;
 
 import android.app.Activity;
@@ -39,7 +37,7 @@ import android.widget.Toast;
 import de.greenrobot.event.EventBus;
 
 public class DoorBellActivity extends Activity implements PreviewCallback,
-		Callback {
+Callback {
 
 	private static final String TAG = DoorBellActivity.class.getSimpleName();
 
@@ -75,8 +73,8 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 
 	private ImageView mPicture;
 
-	private Sender sender = new MMSSender();
-	
+	private final Sender sender = new BoxSender(this);
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -107,7 +105,7 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 	@Override
 	protected void onResume() {
 		super.onResume();
-				
+
 		EventBus.getDefault().register(this, OpenDoorAuthorizedEvent.class);
 	}
 
@@ -115,10 +113,10 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 	protected void onPause() {
 		Log.v(TAG, "onPause");
 		unsetSoundAndVideo();
-		
+
 		sender.onPause();
 		EventBus.getDefault().unregister(this);
-		
+
 		super.onPause();
 
 	}	
@@ -130,7 +128,7 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 	public void onEvent(OpenDoorRequest e){
 		onDoorBellClick(null);
 	}	
-	
+
 	public void onDoorBellClick(View target) {
 		sender.prepare();
 
@@ -152,6 +150,7 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 	}
 
 
+	@Override
 	public void onPreviewFrame(byte[] data, Camera camera) {
 		if (sender.isConnected() && sender.isSending()) {
 			Log.d(TAG, "preview image while connected");
@@ -179,19 +178,19 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
-				
+
+
 				byte[] bs = outStream.toByteArray();
 				Bitmap bm = BitmapFactory.decodeByteArray(bs, 0, bs.length);
 				mPicture.setBackgroundDrawable(new BitmapDrawable(bm));
-				
+
 				sender.sendImage(bs);
 			}
 		} else {
 			// Log.d(TAG, "preview image while disconnected");
 		}
 	}
-	
+
 
 
 	protected void openDoor() {
