@@ -20,25 +20,27 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <receiver android:name="org.doorbeller.act.SMSReceiver" >
+        <receiver android:name="org.doorbeller.act.receiver.SMSReceiver" >
             <intent-filter android:priority="999" >
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        <receiver android:name="org.doorbeller.act.NMAReceiver" >
+        <receiver
+            android:name="org.doorbeller.act.receiver.NMAReceiver"
+            android:priority="999" >
             <intent-filter>
                 <action android:name="com.usk.app.notifymyandroid.NEW_NOTIFICATION" />
             </intent-filter>
         </receiver>
         <receiver
-            android:name="org.doorbeller.act.OpeningDoorSender"
+            android:name="org.doorbeller.act.sender.OpeningDoorSender"
             android:exported="false" >
             <intent-filter>
                 <action android:name="org.doorbeller.ACTION_OPEN_DOOR" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".act.Listener" >
+        <activity android:name="org.doorbeller.act.Listener" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -36,3 +36,6 @@ gen
 local.properties
 */lint.xml
 **/lint.xml
+
+_library-projects/door_bootler_library/src/org/boorbeller/library/box/Constants.java
+_library-projects/door_bootler_library/src/org/boorbeller/library/notifymyandroid/Constants.java
