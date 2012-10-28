@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # built application files
 *.apk
 *.ap_
@@ -19,3 +20,20 @@
 */.settings
 */.DS_Store
 */.classpath
+=======
+.metadata
+tmp/**
+.DS_Store
+*.tmp
+*.bak
+tmp/**/*
+*.swp
+*~.nib
+Thumbs.db
+Desktop.ini
+*~
+*.apk
+bin
+gen
+local.properties
+>>>>>>> 6e2ab8b1e5f65a66e9034feb63c22f3b6f0d37e9
