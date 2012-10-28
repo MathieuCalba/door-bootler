@@ -1,4 +1,4 @@
-package org.doorbeller.android.door.sender.box;
+package org.boorbeller.library.box;
 
 import android.app.Activity;
 import android.content.Intent;

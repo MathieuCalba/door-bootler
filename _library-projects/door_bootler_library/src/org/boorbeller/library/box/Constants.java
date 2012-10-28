@@ -13,7 +13,7 @@
 // limitations under the License.
 //
 
-package org.doorbeller.android.door.sender.box;
+package org.boorbeller.library.box;
 
 public class Constants {
 

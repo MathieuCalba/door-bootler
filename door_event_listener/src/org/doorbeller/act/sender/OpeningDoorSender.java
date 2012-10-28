@@ -1,5 +1,8 @@
 package org.doorbeller.act.sender;
 
+import org.boorbeller.library.Utils;
+import org.boorbeller.library.sms.SMSUtils;
+import org.doorbeller.act.NetworkService;
 import org.doorbeller.act.NotificationHelper;
 
 import android.content.BroadcastReceiver;
@@ -17,20 +20,27 @@ public class OpeningDoorSender extends BroadcastReceiver {
 			final String action = intent.getAction();
 			if (!TextUtils.isEmpty(action) && action.equalsIgnoreCase(ACTION_OPEN_DOOR)) {
 				NotificationHelper.hideNotification(context);
-				openDoor(context);
+
+				boolean doorRequestOverDataNetwork = intent.getBooleanExtra(NotificationHelper.EXTRA_OVER_DATA_NETWORK, false);
+				openDoor(context, doorRequestOverDataNetwork);
 			}
 		}
 	}
 
-	private void openDoor(Context ctx) {
+	private void openDoor(Context ctx, boolean doorRequestOverDataNetwork) {
 		// if data connectivity ok for this device and the other device too
-		// -> sending the door opening approval by push with NMA
-		// else
-		// -> sending the door opening approval by sms
-		Intent i = new Intent(SMSSender.ACTION);
-		final String[] extras = { "Door1" };
-		i.putExtra(SMSSender.SMS_EXTRA_NAME, extras);
-		ctx.sendBroadcast(i);
+		if (doorRequestOverDataNetwork && Utils.getConnection(ctx)) {
+			// -> sending the door opening approval by push with NMA
+			Intent i = new Intent(ctx, NetworkService.class);
+			i.putExtra(NetworkService.EXTRA_APP, "app");
+			i.putExtra(NetworkService.EXTRA_EVENT, "event");
+			i.putExtra(NetworkService.EXTRA_DESCRIPTION, "description");
+			i.putExtra(NetworkService.EXTRA_PRIORITY, 0);
+			ctx.startService(i);
+		} else {
+			// -> sending the door opening approval by sms
+			SMSUtils.sendSMS();
+		}
 	}
 
 }

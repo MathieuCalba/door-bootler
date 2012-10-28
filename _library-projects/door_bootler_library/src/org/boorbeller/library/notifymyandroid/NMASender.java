@@ -1,4 +1,4 @@
-package org.doorbeller.act.sender;
+package org.boorbeller.library.notifymyandroid;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -165,6 +165,7 @@ public class NMASender {
 					Node item = root.getFirstChild();
 					String childName = item.getNodeName();
 					if (childName.equals("success")) {
+						Log.v("NMASender", "notify successful");
 						return;
 					} else {
 						throw new NMAErrorException(item.getFirstChild().getNodeValue());
@@ -224,8 +225,7 @@ public class NMASender {
 	}
 
 	/**
-	 * Sends a notification using NMA public API. -2 = Developer key is of an invalid format -3 = Exception. Use getLastError() for some details. -4 = Server
-	 * returned an error. Check getLastError() for more details. -5 = Problem sending the message. Check getLastError() for the message returned.
+	 * Sends a notification using NMA public API.
 	 * 
 	 * @param apiKey
 	 *            Only one 48 bytes long API key. param devKey Developer key. return result
@@ -300,6 +300,7 @@ public class NMASender {
 					Node item = root.getFirstChild();
 					String childName = item.getNodeName();
 					if (childName.equals("success")) {
+						Log.v("NMASender", "verify successful");
 						return;
 					} else {
 						throw new NMAErrorException(item.getFirstChild().getNodeValue());

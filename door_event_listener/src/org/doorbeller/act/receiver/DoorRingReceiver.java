@@ -47,7 +47,7 @@ public abstract class DoorRingReceiver extends BroadcastReceiver {
 				try {
 					launcher = new Launcher(context);
 				} catch (RuntimeException e) {
-					Log.e("DoorBeller", "Launcher creation impossible", e);
+					Log.e("DoorRingReceiver", "Launcher creation impossible", e);
 				}
 
 				soundPool.play(mSoundID, 1, 1, 1, 0, 1f);
@@ -55,7 +55,7 @@ public abstract class DoorRingReceiver extends BroadcastReceiver {
 				try {
 					launcher.play(Launcher.LONG_BUZZ_100);
 				} catch (RuntimeException e) {
-					Log.e("DoorBeller", "Vibration failed", e);
+					Log.e("DoorRingReceiver", "Vibration failed", e);
 				}
 			}
 		});
