@@ -66,6 +66,10 @@
                 <action android:name="org.doorbootler.auth.ACTION_OPEN_DOOR" />
             </intent-filter>
         </service>
+        <service
+            android:name="org.doorbootler.auth.ReadPictureService"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

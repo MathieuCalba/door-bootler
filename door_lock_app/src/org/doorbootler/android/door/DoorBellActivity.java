@@ -14,8 +14,10 @@ import org.doorbootler.android.door.sender.Sender;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.graphics.drawable.BitmapDrawable;
@@ -184,8 +186,26 @@ Callback {
 				byte[] bs = outStream.toByteArray();
 				Bitmap bm = BitmapFactory.decodeByteArray(bs, 0, bs.length);
 				mPicture.setBackgroundDrawable(new BitmapDrawable(bm));
+				Matrix matrix = new Matrix();
+				matrix.postScale(0.5f, 0.5f);
+				Bitmap bmScaled = Bitmap.createBitmap(bm, 100, 100, 100, 100, matrix, true);
 
-				sender.sendImage(bs);
+				ByteArrayOutputStream boa = new ByteArrayOutputStream();
+				bmScaled.compress(CompressFormat.JPEG, 50, boa);
+				byte[] bytes = boa.toByteArray();
+				sender.sendImage(bytes);
+
+				//				int size = bmScaled.getRowBytes() * bmScaled.getHeight();
+				//				ByteBuffer b = ByteBuffer.allocate(size);
+				//				bmScaled.copyPixelsToBuffer(b);
+				//				byte[] bytes = new byte[size];
+				//				try {
+				//					b.get(bytes, 0, bytes.length);
+				//					sender.sendImage(bytes);
+				//				} catch (BufferUnderflowException e) {
+				//					sender.sendImage(bs);
+				//				}
+
 				unsetVideo();
 			}
 		} else {

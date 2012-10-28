@@ -1,13 +1,17 @@
 package org.doorbootler.auth;
 
+import java.io.File;
+import java.lang.ref.WeakReference;
+
 import org.doorbootler.auth.sender.OpeningDoorSender;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -21,18 +25,7 @@ public class OfficeActivity extends Activity {
 
 		setContentView(R.layout.activity_office);
 
-		// TODO : display the picture here
-		final Intent i = getIntent();
-		if (i != null) {
-			String uri = i.getStringExtra(EXTRA_PICTURE_PATH);
-			if (!TextUtils.isEmpty(uri)) {
-				Bitmap bitmap = BitmapFactory.decodeFile(uri);
-				if (bitmap != null) {
-					ImageView imageV = (ImageView) findViewById(R.id.door_picture);
-					imageV.setImageBitmap(bitmap);
-				}
-			}
-		}
+		// new LoadBitmapTask(getApplicationContext(), (ImageView) findViewById(R.id.door_picture));
 	}
 
 	public void onClickDontOpen(View v) {
@@ -57,6 +50,41 @@ public class OfficeActivity extends Activity {
 
 	public void closeDoor() {
 		finish();
+	}
+
+	private static class LoadBitmapTask extends AsyncTask<Void, Void, Bitmap> {
+
+		WeakReference<ImageView> mImgRef;
+		WeakReference<Context> mContextRef;
+
+		public LoadBitmapTask(Context ctx, ImageView img) {
+			super();
+			mContextRef = new WeakReference<Context>(ctx);
+			mImgRef = new WeakReference<ImageView>(img);
+		}
+
+		@Override
+		protected Bitmap doInBackground(Void... params) {
+			Bitmap bitmap = null;
+			Context ctx = mContextRef.get();
+			if (ctx != null) {
+				File f = new File(ctx.getCacheDir(), "door.jpg");
+				bitmap = BitmapFactory.decodeFile(f.getAbsolutePath());
+			}
+			return bitmap;
+		}
+
+		@Override
+		protected void onPostExecute(Bitmap result) {
+			super.onPostExecute(result);
+
+			if (result != null) {
+				ImageView img = mImgRef.get();
+				if (img != null) {
+					img.setImageBitmap(result);
+				}
+			}
+		}
 	}
 
 }

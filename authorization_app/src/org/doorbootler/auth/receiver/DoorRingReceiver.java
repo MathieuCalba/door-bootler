@@ -36,7 +36,7 @@ public abstract class DoorRingReceiver extends BroadcastReceiver {
 
 	protected abstract void onReceiveEvent(Context context, Intent intent);
 
-	protected static void handleDoorRequest(final Context context, Bitmap bitmap, boolean doorRequestOverDataNetwork) {
+	public static void handleDoorRequest(final Context context, Bitmap bitmap, boolean doorRequestOverDataNetwork) {
 		NotificationHelper.showNotification(context, bitmap, doorRequestOverDataNetwork);
 
 		final SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
