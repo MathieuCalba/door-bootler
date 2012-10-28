@@ -8,6 +8,7 @@ import java.nio.channels.Channel;
 import org.doorbeller.android.door.R;
 import org.doorbootler.android.door.events.OpenDoorAuthorizedEvent;
 import org.doorbootler.android.door.events.OpenDoorLockCommandEvent;
+import org.doorbootler.android.door.events.OpenDoorRequest;
 import org.doorbootler.android.door.sender.MMSSender;
 import org.doorbootler.android.door.sender.Sender;
 
@@ -107,7 +108,7 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 	protected void onResume() {
 		super.onResume();
 				
-		EventBus.getDefault().register(this, OpenDoorLockCommandEvent.class);
+		EventBus.getDefault().register(this, OpenDoorAuthorizedEvent.class);
 	}
 
 	@Override
@@ -126,6 +127,9 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 		openDoor();
 	}
 
+	public void onEvent(OpenDoorRequest e){
+		onDoorBellClick(null);
+	}	
 	
 	public void onDoorBellClick(View target) {
 		sender.prepare();
@@ -194,10 +198,9 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 		Log.v(TAG, "opening door");
 		unsetSoundAndVideo();
 
-		// IO signal to door;
-		EventBus.getDefault().post(new OpenDoorLockCommandEvent());
+		// IO signal to door;		
 		Intent i = new Intent(this, IOIODoorLockService.class);
-		i.putExtra(IOIODoorLockService.EXTRA_DOOR_LOCK_VALUE, 1);
+		i.putExtra(IOIODoorLockService.EXTRA_DOOR_LOCK_VALUE, 2000);
 		startService(i);
 
 	}
