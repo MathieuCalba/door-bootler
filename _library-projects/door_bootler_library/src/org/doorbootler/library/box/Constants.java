@@ -13,7 +13,7 @@
 // limitations under the License.
 //
 
-package org.boorbootler.library.box;
+package org.doorbootler.library.box;
 
 public class Constants {
 

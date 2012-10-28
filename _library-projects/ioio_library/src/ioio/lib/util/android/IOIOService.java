@@ -32,6 +32,7 @@ package ioio.lib.util.android;
 import ioio.lib.impl.SocketIOIOConnection;
 import ioio.lib.util.IOIOLooper;
 import ioio.lib.util.IOIOLooperProvider;
+import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;
 
@@ -70,6 +71,7 @@ import android.content.Intent;
  */
 public abstract class IOIOService extends Service implements
 		IOIOLooperProvider {
+
 	private final IOIOAndroidApplicationHelper helper_ = new IOIOAndroidApplicationHelper(
 			this, this);
 	private boolean started_ = false;

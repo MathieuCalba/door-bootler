@@ -1,4 +1,4 @@
-package org.boorbootler.library.notifymyandroid;
+package org.doorbootler.library.notifymyandroid;
 
 public class Constants {
 

@@ -1,4 +1,4 @@
-package org.boorbootler.library.notifymyandroid;
+package org.doorbootler.library.notifymyandroid;
 
 import java.io.BufferedReader;
 import java.io.IOException;

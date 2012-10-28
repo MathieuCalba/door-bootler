@@ -3,7 +3,7 @@ package org.doorbootler.auth.box;
 import java.io.File;
 import java.io.IOException;
 
-import org.boorbootler.library.box.Constants;
+import org.doorbootler.library.box.Constants;
 
 import android.content.Context;
 import android.content.SharedPreferences;

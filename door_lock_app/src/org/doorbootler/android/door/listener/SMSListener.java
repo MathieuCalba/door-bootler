@@ -1,6 +1,6 @@
 package org.doorbootler.android.door.listener;
 
-import org.boorbootler.library.sms.SMSUtils;
+import org.doorbootler.library.sms.SMSUtils;
 import org.doorbootler.android.door.events.OpenDoorAuthorizedEvent;
 
 import android.content.BroadcastReceiver;

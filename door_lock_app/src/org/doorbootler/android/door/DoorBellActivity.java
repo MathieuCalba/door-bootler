@@ -12,6 +12,7 @@ import org.doorbootler.android.door.sender.MMSSender;
 import org.doorbootler.android.door.sender.Sender;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
@@ -105,8 +106,7 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
-		
+				
 		EventBus.getDefault().register(this, OpenDoorLockCommandEvent.class);
 	}
 
@@ -196,7 +196,9 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 
 		// IO signal to door;
 		EventBus.getDefault().post(new OpenDoorLockCommandEvent());
-		
+		Intent i = new Intent(this, IOIODoorLockService.class);
+		i.putExtra(IOIODoorLockService.EXTRA_DOOR_LOCK_VALUE, 1);
+		startService(i);
 
 	}
 

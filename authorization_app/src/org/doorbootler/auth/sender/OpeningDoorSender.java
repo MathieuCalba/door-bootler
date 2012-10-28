@@ -1,7 +1,7 @@
 package org.doorbootler.auth.sender;
 
-import org.boorbootler.library.Utils;
-import org.boorbootler.library.sms.SMSUtils;
+import org.doorbootler.library.Utils;
+import org.doorbootler.library.sms.SMSUtils;
 import org.doorbootler.auth.NetworkService;
 import org.doorbootler.auth.NotificationHelper;
 

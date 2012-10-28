@@ -1,4 +1,4 @@
-package org.boorbootler.library;
+package org.doorbootler.library;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

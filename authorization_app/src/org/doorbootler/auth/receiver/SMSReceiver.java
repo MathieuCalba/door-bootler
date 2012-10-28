@@ -1,6 +1,6 @@
 package org.doorbootler.auth.receiver;
 
-import org.boorbootler.library.sms.SMSUtils;
+import org.doorbootler.library.sms.SMSUtils;
 
 import android.content.Context;
 import android.content.Intent;

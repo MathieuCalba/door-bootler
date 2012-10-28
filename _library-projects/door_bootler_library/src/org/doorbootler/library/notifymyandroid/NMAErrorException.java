@@ -1,4 +1,4 @@
-package org.boorbootler.library.notifymyandroid;
+package org.doorbootler.library.notifymyandroid;
 
 import android.text.TextUtils;
 import android.util.Log;

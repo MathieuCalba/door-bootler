@@ -1,4 +1,4 @@
-package org.boorbootler.library.sms;
+package org.doorbootler.library.sms;
 
 import android.content.Intent;
 import android.os.Bundle;

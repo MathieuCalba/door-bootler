@@ -1,4 +1,4 @@
-package org.boorbootler.library.box;
+package org.doorbootler.library.box;
 
 import android.app.Activity;
 import android.content.Intent;

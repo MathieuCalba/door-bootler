@@ -1,8 +1,8 @@
 package org.doorbootler.auth;
 
 
-import org.boorbootler.library.notifymyandroid.Constants;
-import org.boorbootler.library.notifymyandroid.NMASender;
+import org.doorbootler.library.notifymyandroid.Constants;
+import org.doorbootler.library.notifymyandroid.NMASender;
 import org.doorbeller.R;
 
 import android.app.Activity;
