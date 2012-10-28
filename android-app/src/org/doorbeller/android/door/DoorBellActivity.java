@@ -4,18 +4,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.channels.Channel;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.List;
 
-import org.doorbeller.android.door.events.OpenDoorEvent;
+import org.doorbeller.android.door.events.OpenDoorAuthorizedEvent;
+import org.doorbeller.android.door.events.OpenDoorLockCommandEvent;
+import org.doorbeller.android.door.sender.MMSSender;
+import org.doorbeller.android.door.sender.Sender;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
@@ -30,12 +25,7 @@ import android.hardware.Camera.Size;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
@@ -43,17 +33,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.androidbridge.SendMMS3.APNHelper;
-import com.androidbridge.SendMMS3.APNHelper.APN;
-import com.androidbridge.SendMMS3.PhoneEx;
-import com.androidbridge.nokia.IMMConstants;
-import com.androidbridge.nokia.MMContent;
-import com.androidbridge.nokia.MMEncoder;
-import com.androidbridge.nokia.MMMessage;
-import com.androidbridge.nokia.MMResponse;
-import com.androidbridge.nokia.MMSender;
-
 import de.greenrobot.event.EventBus;
 
 public class DoorBellActivity extends Activity implements PreviewCallback,
@@ -74,14 +53,6 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 	protected boolean mLoaded;
 
 	private int mSoundID;
-
-	private SmsManager mSmsManager;
-
-	public NetworkInfo mNetworkInfo;
-
-	public NetworkInfo mOtherNetworkInfo;
-
-	public boolean mSending;
 
 	private Camera mCamera;
 
@@ -133,8 +104,9 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		EventBus.getDefault().register(this, OpenDoorEvent.class);
+		
+		
+		EventBus.getDefault().register(this, OpenDoorLockCommandEvent.class);
 	}
 
 	@Override
@@ -143,15 +115,17 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 		unsetSoundAndVideo();
 		
 		sender.onPause();
+		EventBus.getDefault().unregister(this);
 		
 		super.onPause();
 
 	}	
 
-	public void onEvent(OpenDoorEvent e) {
+	public void onEvent(OpenDoorAuthorizedEvent e) {
 		openDoor();
 	}
 
+	
 	public void onDoorBellClick(View target) {
 		sender.prepare();
 
@@ -174,7 +148,7 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 
 
 	public void onPreviewFrame(byte[] data, Camera camera) {
-		if (sender.isConnected() && !mSending) {
+		if (sender.isConnected() && sender.isSending()) {
 			Log.d(TAG, "preview image while connected");
 
 			Parameters parameters = camera.getParameters();
@@ -205,16 +179,14 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 				byte[] bs = outStream.toByteArray();
 				Bitmap bm = BitmapFactory.decodeByteArray(bs, 0, bs.length);
 				mPicture.setBackgroundDrawable(new BitmapDrawable(bm));
+				
 				sender.sendImage(bs);
 			}
 		} else {
 			// Log.d(TAG, "preview image while disconnected");
 		}
 	}
-
-	private boolean isConnectedToAPN() {
-		return mNetworkInfo != null && mNetworkInfo.isConnected();
-	}
+	
 
 
 	protected void openDoor() {
@@ -222,6 +194,8 @@ public class DoorBellActivity extends Activity implements PreviewCallback,
 		unsetSoundAndVideo();
 
 		// IO signal to door;
+		EventBus.getDefault().post(new OpenDoorLockCommandEvent());
+		
 
 	}
 

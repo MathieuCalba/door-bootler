@@ -1,4 +1,4 @@
-package org.doorbeller.android.door;
+package org.doorbeller.android.door.sender;
 
 public interface Sender {
 
@@ -9,5 +9,7 @@ public interface Sender {
 	void onPause();
 
 	void sendImage(byte[] bs);
+
+	boolean isSending();
 
 }

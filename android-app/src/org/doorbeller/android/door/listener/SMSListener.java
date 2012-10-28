@@ -1,6 +1,6 @@
-package org.doorbeller.android.door;
+package org.doorbeller.android.door.listener;
 
-import org.doorbeller.android.door.events.OpenDoorEvent;
+import org.doorbeller.android.door.events.OpenDoorAuthorizedEvent;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -35,7 +35,7 @@ public class SMSListener extends BroadcastReceiver {
                 Log.i("NOVODA", "FROM:["+address+"] MSG:["+body+"]");
             }
             
-            EventBus.getDefault().post(new OpenDoorEvent());
+            EventBus.getDefault().post(new OpenDoorAuthorizedEvent());
         }
         
         // WARNING!!! 

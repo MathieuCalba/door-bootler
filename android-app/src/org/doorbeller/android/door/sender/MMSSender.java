@@ -1,4 +1,4 @@
-package org.doorbeller.android.door;
+package org.doorbeller.android.door.sender;
 
 import java.io.IOException;
 import java.util.Date;
@@ -304,10 +304,12 @@ public class MMSSender implements Sender {
 
 	@Override
 	public boolean isConnected() {
-		// TODO Auto-generated method stub
-		return false;
+		return isConnectedToAPN();
 	}
 
+	private boolean isConnectedToAPN() {
+		return mNetworkInfo != null && mNetworkInfo.isConnected();
+	}
 
 
 	@Override
@@ -316,7 +318,6 @@ public class MMSSender implements Sender {
 		if (mReceiver != null) {
 			ctx.unregisterReceiver(mReceiver);
 		}
-
 		
 	}
 
@@ -325,5 +326,13 @@ public class MMSSender implements Sender {
 	public void sendImage(byte[] bs) {
 		trySendMMs(bs);
 		
+	}
+
+
+
+	@Override
+	public boolean isSending() {
+		// TODO Auto-generated method stub
+		return false;
 	};
 }
