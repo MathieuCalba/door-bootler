@@ -20,6 +20,7 @@
 **/.settings
 */.DS_Store
 */.classpath
+**/.classpath
 tmp/**
 .DS_Store
 *.tmp
