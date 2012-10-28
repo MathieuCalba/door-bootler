@@ -12,7 +12,7 @@ import android.text.TextUtils;
 
 public class OpeningDoorSender extends BroadcastReceiver {
 
-	public static final String ACTION_OPEN_DOOR = "org.doorbeller.ACTION_OPEN_DOOR";
+	public static final String ACTION_OPEN_DOOR = "org.doorbootler.ACTION_OPEN_DOOR";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
