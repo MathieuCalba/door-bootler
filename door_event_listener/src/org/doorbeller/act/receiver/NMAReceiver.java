@@ -28,6 +28,8 @@ public class NMAReceiver extends DoorRingReceiver {
 			// TODO : and store it locally
 			Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
 			handleDoorRequest(context, bitmap, true);
+
+			abortBroadcast();
 			// }
 		}
 	}

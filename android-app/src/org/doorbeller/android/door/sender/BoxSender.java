@@ -5,8 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-import org.doorbeller.android.door.R;
-import org.doorbeller.android.door.sender.box.Constants;
+import org.boorbeller.library.box.Constants;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,7 +18,7 @@ import com.box.androidlib.ResponseListeners.FileUploadListener;
 public class BoxSender implements Sender {
 
 	protected static final String TAG = BoxSender.class.getName();
-	private Context ctx;
+	private final Context ctx;
 
 	public BoxSender(Context ctx) {
 		this.ctx = ctx;

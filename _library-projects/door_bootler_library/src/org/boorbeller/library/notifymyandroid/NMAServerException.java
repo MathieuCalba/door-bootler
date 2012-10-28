@@ -1,4 +1,7 @@
-package org.doorbeller.act.sender;
+package org.boorbeller.library.notifymyandroid;
+
+import android.text.TextUtils;
+import android.util.Log;
 
 public class NMAServerException extends Exception {
 
@@ -15,4 +18,11 @@ public class NMAServerException extends Exception {
 		return mError;
 	}
 
+	@Override
+	public void printStackTrace() {
+		if (!TextUtils.isEmpty(mError)) {
+			Log.e("NMAErrorException", mError);
+		}
+		super.printStackTrace();
+	}
 }

@@ -1,46 +1,24 @@
 package org.doorbeller.android.door.listener;
 
+import org.boorbeller.library.sms.SMSUtils;
 import org.doorbeller.android.door.events.OpenDoorAuthorizedEvent;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.telephony.SmsMessage;
-import android.util.Log;
+import android.text.TextUtils;
 import de.greenrobot.event.EventBus;
 
 public class SMSListener extends BroadcastReceiver {
 
-    private SharedPreferences preferences;
-    
-	public static final String SMS_EXTRA_NAME = "pdus";
-	public static final String SMS_URI = "content://sms";
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		String messages = SMSUtils.getMessages(intent);
+		if (!TextUtils.isEmpty(messages) && messages.contains("Open Door")) {
+			EventBus.getDefault().post(new OpenDoorAuthorizedEvent());
 
-    @Override
-	public void onReceive( Context context, Intent intent ) {
-        Bundle extras = intent.getExtras();
-        String messages = "";
-        
-        if ( extras != null ) {
-            Object[] smsExtra = (Object[]) extras.get( SMS_EXTRA_NAME );
-            
-            for ( int i = 0; i < smsExtra.length; ++i ) {
-            	SmsMessage sms = SmsMessage.createFromPdu((byte[])smsExtra[i]);
-            	String body = sms.getMessageBody().toString();
-            	String address = sms.getOriginatingAddress();
-                messages += "SMS from " + address + " :\n";                    
-                messages += body + "\n";
-                Log.i("NOVODA", "FROM:["+address+"] MSG:["+body+"]");
-            }
-            
-            EventBus.getDefault().post(new OpenDoorAuthorizedEvent());
-        }
-        
-        // WARNING!!! 
-        // If you uncomment next line then received SMS will not be put to incoming.
-        // Be careful!
-        // this.abortBroadcast(); 
+			abortBroadcast();
+		}
 	}
+
 }
