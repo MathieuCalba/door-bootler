@@ -84,9 +84,11 @@ public class BoxSender implements Sender {
 			public void onComplete(BoxFile boxFile, String status) {
 				Log.v(TAG, status);
 				
+				boxFile.getId();
+				
 			}
 		}); 
-		
+		        
 	}
 
 	@Override
