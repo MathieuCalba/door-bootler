@@ -1,8 +1,8 @@
 package org.doorbootler.auth.sender;
 
-import org.doorbootler.auth.NetworkService;
 import org.doorbootler.auth.NotificationHelper;
 import org.doorbootler.library.Utils;
+import org.doorbootler.library.notifymyandroid.NetworkService;
 import org.doorbootler.library.sms.SMSUtils;
 
 import android.content.BroadcastReceiver;

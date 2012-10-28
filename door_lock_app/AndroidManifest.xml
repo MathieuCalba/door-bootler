@@ -43,6 +43,26 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
+
+        <service
+            android:name="org.doorbootler.library.notifymyandroid.NetworkService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="org.doorbootler.auth.ACTION_OPEN_DOOR" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name="org.doorbootler.library.box.Authentication"
+            android:label="Box Auth Door Lock" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.box.androidlib.activities.BoxAuthentication" >
+        </activity>
     </application>
 
 </manifest>

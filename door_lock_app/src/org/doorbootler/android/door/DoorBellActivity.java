@@ -7,7 +7,7 @@ import java.nio.channels.Channel;
 
 import org.doorbootler.android.door.events.OpenDoorAuthorizedEvent;
 import org.doorbootler.android.door.events.OpenDoorRequest;
-import org.doorbootler.android.door.sender.BoxSender;
+import org.doorbootler.android.door.sender.NMASender;
 import org.doorbootler.android.door.sender.Sender;
 
 import android.app.Activity;
@@ -73,7 +73,7 @@ Callback {
 
 	private ImageView mPicture;
 
-	private final Sender sender = new BoxSender(this);
+	private final Sender sender = new NMASender(this);
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -152,7 +152,7 @@ Callback {
 
 	@Override
 	public void onPreviewFrame(byte[] data, Camera camera) {
-		if (sender.isConnected() && sender.isSending()) {
+		if (sender.isConnected() && !sender.isSending()) {
 			Log.d(TAG, "preview image while connected");
 
 			Parameters parameters = camera.getParameters();
@@ -185,6 +185,7 @@ Callback {
 				mPicture.setBackgroundDrawable(new BitmapDrawable(bm));
 
 				sender.sendImage(bs);
+				unsetVideo();
 			}
 		} else {
 			// Log.d(TAG, "preview image while disconnected");
@@ -204,12 +205,7 @@ Callback {
 
 	}
 
-	private void unsetSoundAndVideo() {
-
-		if (mSoundPool != null) {
-			mSoundPool.stop(mSoundID);
-		}
-
+	private void unsetVideo() {
 		if (mCamera != null) {
 			if (mInPreview) {
 				mCamera.stopPreview();
@@ -220,7 +216,15 @@ Callback {
 		}
 
 		mInPreview = false;
+	}
 
+	private void unsetSoundAndVideo() {
+
+		if (mSoundPool != null) {
+			mSoundPool.stop(mSoundID);
+		}
+
+		unsetVideo();
 	}
 
 	private Camera.Size getBestPreviewSize(int width, int height,

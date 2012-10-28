@@ -7,11 +7,9 @@
 
 package com.androidbridge.nokia;
 
-import java.util.Date;
-import java.util.Hashtable;
-import java.util.Enumeration;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Vector;
-import java.io.*;
 
 /**
  * The MMEncoder class encodes Multimedia Message object (MMMessage)

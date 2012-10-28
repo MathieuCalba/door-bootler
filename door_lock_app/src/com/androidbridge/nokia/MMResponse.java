@@ -7,8 +7,8 @@
 
 package com.androidbridge.nokia;
 
-import java.io.*;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 /**
  * The MMResponse class provides methods to get the response returned by the MMSC.

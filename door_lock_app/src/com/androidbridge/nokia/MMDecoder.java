@@ -8,8 +8,6 @@
 package com.androidbridge.nokia;
 
 import java.util.Date;
-import java.util.Hashtable;
-import java.util.Enumeration;
 
 /**
  * The MMDecoder class decodes an array of bytes representing a Multimedia Message (MM)

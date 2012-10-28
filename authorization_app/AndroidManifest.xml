@@ -20,7 +20,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <receiver android:name="org.doorbootler.act.receiver.SMSReceiver" >
+        <receiver android:name="org.doorbootler.auth.receiver.SMSReceiver" >
             <intent-filter android:priority="999" >
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
@@ -31,7 +31,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="org.doorbootler.act.sender.OpeningDoorSender"
+            android:name="org.doorbootler.auth.sender.OpeningDoorSender"
             android:exported="false" >
             <intent-filter>
                 <action android:name="org.doorbootler.ACTION_OPEN_DOOR" />
@@ -46,7 +46,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="org.doorbootler.uth.OfficeActivity" />
+        <activity android:name="org.doorbootler.auth.OfficeActivity" />
+        <activity
+            android:name="org.doorbootler.library.box.Authentication"
+            android:label="Box Auth Door Auth" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.box.androidlib.activities.BoxAuthentication" >
+        </activity>
+
+        <service
+            android:name="org.doorbootler.library.notifymyandroid.NetworkService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="org.doorbootler.auth.ACTION_OPEN_DOOR" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

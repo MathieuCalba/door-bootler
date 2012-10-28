@@ -17,13 +17,13 @@ package org.doorbootler.library.box;
 
 public class Constants {
 
-    // IMPORTANT: Set this to your OpenBox API Key. This demo will not work
-    // until you do so!!!
-    // To get an API Key, go to https://www.box.net/developers
-    public static String API_KEY = "xxxx";
+	// IMPORTANT: Set this to your OpenBox API Key. This demo will not work
+	// until you do so!!!
+	// To get an API Key, go to https://www.box.net/developers
+	public static String API_KEY = "9pal7nucqwe1zefd8x6eh1oldl5vam5j";
 
-    public static final String PREFS_FILE_NAME = "prefs";
-    public static final String PREFS_KEY_AUTH_TOKEN = "AUTH_TOKEN";
-    
-    
+	public static final String PREFS_FILE_NAME = "prefs";
+	public static final String PREFS_KEY_AUTH_TOKEN = "AUTH_TOKEN";
+
+
 }

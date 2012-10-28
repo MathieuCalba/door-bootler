@@ -1,8 +1,5 @@
 package org.doorbootler.android.door;
 
-import org.doorbootler.android.door.events.OpenDoorRequest;
-
-import de.greenrobot.event.EventBus;
 import ioio.lib.api.DigitalInput;
 import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.DigitalOutput.Spec.Mode;
@@ -11,8 +8,12 @@ import ioio.lib.api.exception.ConnectionLostException;
 import ioio.lib.util.BaseIOIOLooper;
 import ioio.lib.util.IOIOLooper;
 import ioio.lib.util.android.IOIOService;
+
+import org.doorbootler.android.door.events.OpenDoorRequest;
+
 import android.content.Intent;
 import android.os.IBinder;
+import de.greenrobot.event.EventBus;
 
 public class IOIODoorLockService extends IOIOService {
 

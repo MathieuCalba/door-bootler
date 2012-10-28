@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.box.androidlib.ResponseListeners.FileDownloadListener;
 
@@ -30,15 +31,15 @@ public class NMAReceiver extends DoorRingReceiver {
 			String url = intent.getStringExtra("url");
 
 			if (!TextUtils.isEmpty(event) && event.contains("Ding Dong")) {
-				int fileId = 0;
 				try {
 					// TODO : these value should be retrieved from the intent's extras
-					fileId = Integer.valueOf(desc);
+					int fileId = Integer.valueOf(desc);
+					BoxHelper.getFile(context.getApplicationContext(), fileId, new FileListener(context.getApplicationContext()));
 				} catch (NumberFormatException e) {
-					e.printStackTrace();
+					Log.e("NMAReceiver", "couldn't get the box id, so use a fake picture", e);
+					Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
+					DoorRingReceiver.handleDoorRequest(context, bitmap, true);
 				}
-
-				BoxHelper.getFile(context.getApplicationContext(), fileId, new FileListener(context.getApplicationContext()));
 			}
 		}
 	}

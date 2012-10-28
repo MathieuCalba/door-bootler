@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 
 import org.doorbootler.library.box.Constants;
+import org.doorbootler.library.notifymyandroid.NetworkService;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -81,10 +83,15 @@ public class BoxSender implements Sender {
 			public void onComplete(BoxFile boxFile, String status) {
 				Log.v(TAG, status);
 
-				boxFile.getId();
-				// TODO : send a push with notifymyandroid to the other device with this id
+				long boxId = boxFile.getId();
+				Intent i = new Intent(NetworkService.ACTION_OPEN_DOOR);
+				i.putExtra(NetworkService.EXTRA_APP, "DoorBootler");
+				i.putExtra(NetworkService.EXTRA_DESCRIPTION, String.valueOf(boxId));
+				i.putExtra(NetworkService.EXTRA_EVENT, "Ding Dong");
+				i.putExtra(NetworkService.EXTRA_PRIORITY, 0);
+				ctx.startService(i);
 			}
-		}); 
+		});
 
 	}
 

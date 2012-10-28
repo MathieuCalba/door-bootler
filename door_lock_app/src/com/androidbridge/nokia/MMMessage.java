@@ -6,11 +6,11 @@
  */
 package com.androidbridge.nokia;
 
-import java.util.Date;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.util.Vector;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
 
 /**
  * The MMMEssage class represents a Multimedia Message.

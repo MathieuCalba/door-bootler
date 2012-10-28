@@ -6,9 +6,16 @@
 
 package com.androidbridge.nokia;
 
-import java.net.*;
-import java.io.*;
-import java.util.*;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.ConnectException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Properties;
 
 /**
  * The MMSender class provides methods to send Multimedia Messages to a predefined

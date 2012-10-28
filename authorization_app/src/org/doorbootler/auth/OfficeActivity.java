@@ -13,7 +13,7 @@ import android.widget.ImageView;
 
 public class OfficeActivity extends Activity {
 
-	public static final String EXTRA_PICTURE_PATH = "org.doorbeller.act.EXTRA_PICTURE_PATH";
+	public static final String EXTRA_PICTURE_PATH = "org.doorbootler.auth.EXTRA_PICTURE_PATH";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
