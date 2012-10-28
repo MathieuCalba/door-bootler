@@ -1,7 +1,7 @@
 package org.doorbootler.auth.receiver;
 
-import org.doorbeller.R;
 import org.doorbootler.auth.NotificationHelper;
+import org.doorbootler.auth.R;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

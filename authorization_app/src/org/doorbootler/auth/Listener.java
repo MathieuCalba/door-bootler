@@ -3,7 +3,6 @@ package org.doorbootler.auth;
 
 import org.doorbootler.library.notifymyandroid.Constants;
 import org.doorbootler.library.notifymyandroid.NMASender;
-import org.doorbeller.R;
 
 import android.app.Activity;
 import android.os.AsyncTask;

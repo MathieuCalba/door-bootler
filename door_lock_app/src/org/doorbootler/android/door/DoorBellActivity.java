@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.channels.Channel;
 
-import org.doorbeller.android.door.R;
+import org.doorbootler.android.door.R;
 import org.doorbootler.android.door.events.OpenDoorAuthorizedEvent;
 import org.doorbootler.android.door.events.OpenDoorLockCommandEvent;
 import org.doorbootler.android.door.events.OpenDoorRequest;
