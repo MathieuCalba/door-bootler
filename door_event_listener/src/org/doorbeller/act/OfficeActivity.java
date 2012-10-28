@@ -1,6 +1,7 @@
 package org.doorbeller.act;
 
 import org.doorbeller.R;
+import org.doorbeller.act.sender.OpeningDoorSender;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,6 +22,7 @@ public class OfficeActivity extends Activity {
 
 		setContentView(R.layout.activity_office);
 
+		// TODO : display the picture here
 		final Intent i = getIntent();
 		if (i != null) {
 			String uri = i.getStringExtra(EXTRA_PICTURE_PATH);
@@ -45,7 +47,12 @@ public class OfficeActivity extends Activity {
 	}
 
 	public void openDoor() {
-		sendBroadcast(new Intent(OpeningDoor.ACTION));
+		boolean doorRequestOnDataNetwork = getIntent().getBooleanExtra(NotificationHelper.EXTRA_OVER_DATA_NETWORK, false);
+
+		Intent i = new Intent(OpeningDoorSender.ACTION_OPEN_DOOR);
+		i.putExtra(NotificationHelper.EXTRA_OVER_DATA_NETWORK, doorRequestOnDataNetwork);
+		sendBroadcast(i);
+
 		finish();
 	}
 

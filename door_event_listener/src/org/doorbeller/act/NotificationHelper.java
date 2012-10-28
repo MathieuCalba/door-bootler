@@ -1,32 +1,39 @@
 package org.doorbeller.act;
 
 import org.doorbeller.R;
+import org.doorbeller.act.sender.OpeningDoorSender;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 
 import com.jakewharton.notificationcompat2.NotificationCompat2;
 
 public class NotificationHelper {
 
-	public static void showNotification(Context ctx, Bitmap bitmap) {
+	public static final String EXTRA_OVER_DATA_NETWORK = "org.doorbeller.EXTRA_OVER_DATA_NETWORK";
+
+	public static void showNotification(Context ctx, Bitmap bitmap, boolean doorRequestOnDataNetwork) {
 		final NotificationManager mgr = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 
 		final String title = ctx.getString(R.string.notification_title);
 		final String content = ctx.getString(R.string.notification_content);
-		final PendingIntent pIntentTalk = PendingIntent.getActivity(ctx, 0, new Intent(ctx, OfficeActivity.class), 0);
-		final PendingIntent pIntentOpen = PendingIntent.getBroadcast(ctx, 0, new Intent(OpeningDoor.ACTION), 0);
+
+		Intent i = new Intent(ctx, OfficeActivity.class);
+		i.putExtra(EXTRA_OVER_DATA_NETWORK, doorRequestOnDataNetwork);
+		final PendingIntent pIntentTalk = PendingIntent.getActivity(ctx, 0, i, 0);
+
+		i = new Intent(OpeningDoorSender.ACTION_OPEN_DOOR);
+		i.putExtra(EXTRA_OVER_DATA_NETWORK, doorRequestOnDataNetwork);
+		final PendingIntent pIntentOpen = PendingIntent.getBroadcast(ctx, 0, i, 0);
 
 		NotificationCompat2.Builder notifBuilder = new NotificationCompat2.Builder(ctx);
 		notifBuilder.setTicker(title);
 		notifBuilder.setContentTitle(title);
 		notifBuilder.setLargeIcon(bitmap);
 		notifBuilder.setSmallIcon(R.drawable.ic_launcher);
-		notifBuilder.setSound(Uri.parse("file:///android_asset/old_phone_ringing.mp3"));
 		notifBuilder.setContentIntent(pIntentTalk);
 		notifBuilder.setStyle(new NotificationCompat2.BigPictureStyle().bigPicture(bitmap).setBigContentTitle(content));
 		notifBuilder.setPriority(NotificationCompat2.PRIORITY_MAX);
