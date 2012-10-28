@@ -2,51 +2,58 @@
  Button Control
  */
 
-// constants won't change. They're used here to 
-// set pin numbers:
-const int buttonPin = 2;     // the number of the pushbutton pin
-const int ledPin =  13;      // the number of the LED pin
+#define buttonPin      5     // the pin of the doorbell signal
+#define OpenDoorServo  6     //pin where the servo that controls door opening is attached to
 
-// Variables will change:
-int ledState = HIGH;         // the current state of the output pin
 int buttonState;             // the current reading from the input pin
 int lastButtonState = LOW;   // the previous reading from the input pin
 
-// the following variables are long's because the time, measured in miliseconds,
-// will quickly become a bigger number than can be stored in an int.
 long lastDebounceTime = 0;  // the last time the output pin was toggled
 long debounceDelay = 50;    // the debounce time; increase if the output flickers
 
 void setup() {
+  Serial.begin(115200);
   pinMode(buttonPin, INPUT);
-  pinMode(ledPin, OUTPUT);
+
 }
 
 void loop() {
-  // read the state of the switch into a local variable:
-  int reading = digitalRead(buttonPin);
+     
+    readBuzzer();
 
-  // check to see if you just pressed the button 
-  // (i.e. the input went from LOW to HIGH),  and you've waited 
-  // long enough since the last press to ignore any noise:  
+}
 
-  // If the switch changed, due to noise or pressing:
+
+void readBuzzer(){
+    int reading = digitalRead(buttonPin);
+
+
   if (reading != lastButtonState) {
-    // reset the debouncing timer
     lastDebounceTime = millis();
+    
   } 
   
   if ((millis() - lastDebounceTime) > debounceDelay) {
-    // whatever the reading is at, it's been there for longer
-    // than the debounce delay, so take it as the actual current state:
     buttonState = reading;
+    
+        //For Debugging
+        
+        //Temp for error motion of cable handling:
+        if (buttonState == 1){
+        
+              Serial.println("Buzzer Activated!!");
+              Serial.println(buttonState);     
+        }
+          
+          delay(1000); //Don't need to listen too much
+          
+  //This is where we process communication to Android to say that the buzzer has been activated
+  
+
+
   }
   
-  // set the LED using the state of the button:
-  digitalWrite(ledPin, buttonState);
 
-  // save the reading.  Next time through the loop,
-  // it'll be the lastButtonState:
   lastButtonState = reading;
 }
 

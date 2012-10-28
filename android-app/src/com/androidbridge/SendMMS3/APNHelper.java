@@ -23,13 +23,13 @@ public class APNHelper {
 	}   
 
 	public List<APN> getMMSApns() {     
-	    final Cursor apnCursor = this.context.getContentResolver().query(Uri.withAppendedPath(Carriers.CONTENT_URI, "current"), null, null, null, null);
+	    final Cursor apnCursor = this.context.getContentResolver().query(Carriers.CONTENT_URI, null, null, null, null);
 	    if ( apnCursor == null ) {
 	        return Collections.EMPTY_LIST;
 	    } else {
 	        final List<APN> results = new ArrayList<APN>();         
 	        while ( apnCursor.moveToNext() ) {
-	            final String type = apnCursor.getString(apnCursor.getColumnIndex(Carriers.TYPE));
+	            final String type = apnCursor.getString(apnCursor.getColumnIndex(Carriers.TYPE));	            
 	            if ( !TextUtils.isEmpty(type) && ( type.equalsIgnoreCase(PhoneEx.APN_TYPE_ALL) || type.equalsIgnoreCase(PhoneEx.APN_TYPE_MMS) ) ) {
 	                final String mmsc = apnCursor.getString(apnCursor.getColumnIndex(Carriers.MMSC));
 	                final String mmsProxy = apnCursor.getString(apnCursor.getColumnIndex(Carriers.MMSPROXY));
