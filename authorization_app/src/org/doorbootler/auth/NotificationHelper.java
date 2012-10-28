@@ -1,6 +1,5 @@
 package org.doorbootler.auth;
 
-import org.doorbeller.R;
 import org.doorbootler.auth.sender.OpeningDoorSender;
 
 import android.app.NotificationManager;

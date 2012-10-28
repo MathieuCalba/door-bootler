@@ -1,6 +1,6 @@
 package org.doorbootler.auth.receiver;
 
-import org.doorbeller.R;
+import org.doorbootler.auth.R;
 
 import android.content.Context;
 import android.content.Intent;
