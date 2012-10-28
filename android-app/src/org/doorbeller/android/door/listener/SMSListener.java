@@ -1,6 +1,6 @@
-package org.doorbeller.android.door;
+package org.doorbeller.android.door.listener;
 
-import org.doorbeller.android.door.events.OpenDoorEvent;
+import org.doorbeller.android.door.events.OpenDoorAuthorizedEvent;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,7 +11,7 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 import de.greenrobot.event.EventBus;
 
-public class SMSListener extends BroadcastReceiver{
+public class SMSListener extends BroadcastReceiver {
 
     private SharedPreferences preferences;
     
@@ -35,7 +35,7 @@ public class SMSListener extends BroadcastReceiver{
                 Log.i("NOVODA", "FROM:["+address+"] MSG:["+body+"]");
             }
             
-            EventBus.getDefault().post(new OpenDoorEvent());
+            EventBus.getDefault().post(new OpenDoorAuthorizedEvent());
         }
         
         // WARNING!!! 
