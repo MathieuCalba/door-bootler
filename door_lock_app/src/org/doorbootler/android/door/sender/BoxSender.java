@@ -44,50 +44,48 @@ public class BoxSender implements Sender {
 
 	@Override
 	public void sendImage(byte[] bs) {
-		
-		
 		final SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFS_FILE_NAME, 0);
-        String authToken = prefs.getString(Constants.PREFS_KEY_AUTH_TOKEN, null);
-        
-        long folderId = 0l; // root folder
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(bs);
-        
+		String authToken = prefs.getString(Constants.PREFS_KEY_AUTH_TOKEN, null);
+
+		long folderId = 0l; // root folder
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(bs);
+
 		final Box box = Box.getInstance(Constants.API_KEY);
-        box.upload(authToken, Box.UPLOAD_ACTION_UPLOAD, inputStream, "door.jpg", folderId, new FileUploadListener() {
-			
+		box.upload(authToken, Box.UPLOAD_ACTION_UPLOAD, inputStream, "door.jpg", folderId, new FileUploadListener() {
+
 			@Override
 			public void onIOException(IOException e) {
 				Log.v(TAG, e.toString());
-				
+
 			}
-			
+
 			@Override
 			public void onProgress(long bytesTransferredCumulative) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void onMalformedURLException(MalformedURLException e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void onFileNotFoundException(FileNotFoundException e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void onComplete(BoxFile boxFile, String status) {
 				Log.v(TAG, status);
-				
+
 				boxFile.getId();
-				
+				// TODO : send a push with notifymyandroid to the other device with this id
 			}
 		}); 
-		        
+
 	}
 
 	@Override

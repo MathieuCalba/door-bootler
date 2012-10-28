@@ -20,7 +20,7 @@ public abstract class DoorRingReceiver extends BroadcastReceiver {
 	public static final String ACTION_SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
 	public static final String ACTION_MAN_RECEIVED = "com.usk.app.notifymyandroid.NEW_NOTIFICATION";
 
-	private int mSoundID;
+	// private int mSoundID;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -36,7 +36,7 @@ public abstract class DoorRingReceiver extends BroadcastReceiver {
 
 	protected abstract void onReceiveEvent(Context context, Intent intent);
 
-	protected void handleDoorRequest(final Context context, Bitmap bitmap, boolean doorRequestOverDataNetwork) {
+	protected static void handleDoorRequest(final Context context, Bitmap bitmap, boolean doorRequestOverDataNetwork) {
 		NotificationHelper.showNotification(context, bitmap, doorRequestOverDataNetwork);
 
 		final SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
@@ -50,7 +50,7 @@ public abstract class DoorRingReceiver extends BroadcastReceiver {
 					Log.e("DoorRingReceiver", "Launcher creation impossible", e);
 				}
 
-				soundPool.play(mSoundID, 1, 1, 1, 0, 1f);
+				soundPool.play(sampleId, 1, 1, 1, 0, 1f);
 
 				try {
 					launcher.play(Launcher.LONG_BUZZ_100);
@@ -59,7 +59,7 @@ public abstract class DoorRingReceiver extends BroadcastReceiver {
 				}
 			}
 		});
-		mSoundID = soundPool.load(context, R.raw.old_phone_ringing, 1);
+		soundPool.load(context, R.raw.old_phone_ringing, 1);
 	}
 
 }

@@ -1,9 +1,9 @@
 package org.doorbootler.auth.sender;
 
-import org.doorbootler.library.Utils;
-import org.doorbootler.library.sms.SMSUtils;
 import org.doorbootler.auth.NetworkService;
 import org.doorbootler.auth.NotificationHelper;
+import org.doorbootler.library.Utils;
+import org.doorbootler.library.sms.SMSUtils;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -31,7 +31,7 @@ public class OpeningDoorSender extends BroadcastReceiver {
 		// if data connectivity ok for this device and the other device too
 		if (doorRequestOverDataNetwork && Utils.getConnection(ctx)) {
 			// -> sending the door opening approval by push with NMA
-			Intent i = new Intent(ctx, NetworkService.class);
+			Intent i = new Intent(NetworkService.ACTION_OPEN_DOOR);
 			i.putExtra(NetworkService.EXTRA_APP, "app");
 			i.putExtra(NetworkService.EXTRA_EVENT, "event");
 			i.putExtra(NetworkService.EXTRA_DESCRIPTION, "description");

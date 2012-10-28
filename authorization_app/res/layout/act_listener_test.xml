@@ -10,4 +10,10 @@
         android:onClick="onBtClick"
         android:text="Verify NMA ApiKey" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onBtBisClick"
+        android:text="upload to Box" />
+
 </LinearLayout>
