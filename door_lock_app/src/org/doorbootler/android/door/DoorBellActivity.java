@@ -108,6 +108,8 @@ Callback {
 		super.onResume();
 		
 		EventBus.getDefault().register(this, OpenDoorAuthorizedEvent.class);
+		
+		onDoorBellClick(null);
 	}
 
 	@Override
@@ -209,10 +211,12 @@ Callback {
 		Log.v(TAG, "opening door");
 		unsetSoundAndVideo();
 
+		Intent i = new Intent(this , SimpleDigitalInputActivity.class);
+		i.setAction("OPEN");
+		
 		// IO signal to door;		
-		Intent i = new Intent(this, IOIODoorLockService.class);
 		i.putExtra(IOIODoorLockService.EXTRA_DOOR_LOCK_VALUE, 2000);
-		startService(i);
+		startActivity(i);
 
 	}
 
