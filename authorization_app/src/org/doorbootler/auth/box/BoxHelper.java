@@ -14,7 +14,7 @@ public class BoxHelper {
 
 	protected static final String TAG = BoxHelper.class.getName();
 
-	public static void getFile(Context ctx, int fileId, FileDownloadListener listener) {
+	public static void getFile(Context ctx, long fileId, FileDownloadListener listener) {
 		final SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFS_FILE_NAME, 0);
 		String authToken = prefs.getString(Constants.PREFS_KEY_AUTH_TOKEN, null);
 

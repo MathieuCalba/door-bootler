@@ -32,8 +32,7 @@ public class NMAReceiver extends DoorRingReceiver {
 
 			if (!TextUtils.isEmpty(event) && event.contains("Ding Dong")) {
 				try {
-					// TODO : these value should be retrieved from the intent's extras
-					int fileId = Integer.valueOf(desc);
+					long fileId = Long.valueOf(desc);
 					BoxHelper.getFile(context.getApplicationContext(), fileId, new FileListener(context.getApplicationContext()));
 				} catch (NumberFormatException e) {
 					Log.e("NMAReceiver", "couldn't get the box id, so use a fake picture", e);

@@ -12,6 +12,10 @@ public class NMASender implements Sender {
 
 	private boolean hasSent = false;
 
+	private NMASender() {
+		mContext = null;
+	}
+
 	public NMASender(Context ctx) {
 		super();
 		mContext = ctx;

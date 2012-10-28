@@ -32,8 +32,8 @@ public class OpeningDoorSender extends BroadcastReceiver {
 		if (doorRequestOverDataNetwork && Utils.getConnection(ctx)) {
 			// -> sending the door opening approval by push with NMA
 			Intent i = new Intent(NetworkService.ACTION_OPEN_DOOR);
-			i.putExtra(NetworkService.EXTRA_APP, "app");
-			i.putExtra(NetworkService.EXTRA_EVENT, "event");
+			i.putExtra(NetworkService.EXTRA_APP, "DoorBootler");
+			i.putExtra(NetworkService.EXTRA_EVENT, "Door Open");
 			i.putExtra(NetworkService.EXTRA_DESCRIPTION, "description");
 			i.putExtra(NetworkService.EXTRA_PRIORITY, 0);
 			ctx.startService(i);

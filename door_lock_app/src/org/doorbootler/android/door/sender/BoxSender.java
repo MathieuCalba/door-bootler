@@ -19,8 +19,10 @@ import com.box.androidlib.ResponseListeners.FileUploadListener;
 
 public class BoxSender implements Sender {
 
-	protected static final String TAG = BoxSender.class.getName();
+	protected static final String TAG = BoxSender.class.getSimpleName();
 	private final Context ctx;
+
+	private boolean hasSent = false;
 
 	public BoxSender(Context ctx) {
 		this.ctx = ctx;
@@ -34,7 +36,6 @@ public class BoxSender implements Sender {
 
 	@Override
 	public boolean isConnected() {
-		// TODO check connectivity
 		return true;
 	}
 
@@ -58,25 +59,21 @@ public class BoxSender implements Sender {
 			@Override
 			public void onIOException(IOException e) {
 				Log.v(TAG, e.toString());
-
 			}
 
 			@Override
 			public void onProgress(long bytesTransferredCumulative) {
-				// TODO Auto-generated method stub
-
+				Log.v(TAG, "onProgress(" + bytesTransferredCumulative + ")");
 			}
 
 			@Override
 			public void onMalformedURLException(MalformedURLException e) {
-				// TODO Auto-generated method stub
-
+				Log.v(TAG, "onMalformedURLException");
 			}
 
 			@Override
 			public void onFileNotFoundException(FileNotFoundException e) {
-				// TODO Auto-generated method stub
-
+				Log.v(TAG, "onFileNotFoundException");
 			}
 
 			@Override
@@ -92,12 +89,12 @@ public class BoxSender implements Sender {
 				ctx.startService(i);
 			}
 		});
-
+		hasSent = true;
 	}
 
 	@Override
 	public boolean isSending() {
-		return false;
+		return hasSent;
 	}
 
 }

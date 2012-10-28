@@ -7,6 +7,7 @@ import java.nio.channels.Channel;
 
 import org.doorbootler.android.door.events.OpenDoorAuthorizedEvent;
 import org.doorbootler.android.door.events.OpenDoorRequest;
+import org.doorbootler.android.door.sender.BoxSender;
 import org.doorbootler.android.door.sender.NMASender;
 import org.doorbootler.android.door.sender.Sender;
 
@@ -73,7 +74,8 @@ Callback {
 
 	private ImageView mPicture;
 
-	private final Sender sender = new NMASender(this);
+	private final Sender sender1 = new NMASender(this);
+	private final Sender sender = new BoxSender(this);
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -178,7 +180,6 @@ Callback {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
 
 				byte[] bs = outStream.toByteArray();
 				Bitmap bm = BitmapFactory.decodeByteArray(bs, 0, bs.length);
