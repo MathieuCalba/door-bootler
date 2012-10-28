@@ -13,12 +13,18 @@ import org.doorbootler.android.door.events.OpenDoorRequest;
 
 import android.content.Intent;
 import android.os.IBinder;
+<<<<<<< HEAD
 import de.greenrobot.event.EventBus;
+=======
+import android.util.Log;
+>>>>>>> fei_local
 
 public class IOIODoorLockService extends IOIOService {
 
 	public static final String EXTRA_DOOR_LOCK_VALUE = "door_lock_value";
+	private static final String TAG = IOIODoorLockService.class.getSimpleName();
 
+	
 	public IOIODoorLockService() {
 		super();
 	}
@@ -50,6 +56,8 @@ public class IOIODoorLockService extends IOIOService {
 				if (!reading1) {
 					// Physical Debugging Notification LED on Hardware
 					LED.write(true); // For physical debugging
+					Log.v(TAG, "Writing to IOIO Board");
+
 					EventBus.getDefault().post(new OpenDoorRequest());
 					// The button pressed event is here, i.e. the buzzer has
 					// been activated
@@ -112,12 +120,23 @@ public class IOIODoorLockService extends IOIOService {
 		}
 
 	}
+	
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		// TODO Auto-generated method stub
+		int v =super.onStartCommand(intent, flags, startId);
+		
+		openDoorDuration = intent.getIntExtra(EXTRA_DOOR_LOCK_VALUE, 0);		
+		Log.d(TAG, "started " + openDoorDuration);
+		return v;
+	}
 
 	@Override
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 		
 		openDoorDuration = intent.getIntExtra(EXTRA_DOOR_LOCK_VALUE, 0);		
+		Log.d(TAG, "started " + openDoorDuration);
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import org.doorbootler.android.door.sender.NMASender;
 import org.doorbootler.android.door.sender.Sender;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -109,10 +110,21 @@ Callback {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		
 		EventBus.getDefault().register(this, OpenDoorAuthorizedEvent.class);
+		
+		onDoorBellClick(null);
 	}
 
+	@Override
+	protected void onStart() {
+		super.onStart();
+	
+
+		Intent i = new Intent(this, IOIODoorLockService.class);
+		ComponentName c = startService(i);
+		Log.v(TAG,c.getClassName());
+}
 	@Override
 	protected void onPause() {
 		Log.v(TAG, "onPause");
@@ -150,6 +162,7 @@ Callback {
 		}
 
 		mSoundPool.play(mSoundID, 1, 1, 1, 0, 1f);
+		
 
 	}
 
@@ -219,10 +232,12 @@ Callback {
 		Log.v(TAG, "opening door");
 		unsetSoundAndVideo();
 
+		Intent i = new Intent(this , SimpleDigitalInputActivity.class);
+		i.setAction("OPEN");
+		
 		// IO signal to door;		
-		Intent i = new Intent(this, IOIODoorLockService.class);
 		i.putExtra(IOIODoorLockService.EXTRA_DOOR_LOCK_VALUE, 2000);
-		startService(i);
+		startActivity(i);
 
 	}
 
