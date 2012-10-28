@@ -16,7 +16,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
-
+	<uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -43,6 +43,7 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
+<<<<<<< HEAD
 
         <service
             android:name="org.doorbootler.library.notifymyandroid.NetworkService"
@@ -63,6 +64,10 @@
         </activity>
         <activity android:name="com.box.androidlib.activities.BoxAuthentication" >
         </activity>
+=======
+        
+        <service android:name="org.doorbootler.android.door.IOIODoorLockService"/>
+>>>>>>> fei_local
     </application>
 
 </manifest>
