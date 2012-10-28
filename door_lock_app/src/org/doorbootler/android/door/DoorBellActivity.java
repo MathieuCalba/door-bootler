@@ -11,6 +11,7 @@ import org.doorbootler.android.door.sender.BoxSender;
 import org.doorbootler.android.door.sender.Sender;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -105,10 +106,19 @@ Callback {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		
 		EventBus.getDefault().register(this, OpenDoorAuthorizedEvent.class);
 	}
 
+	@Override
+	protected void onStart() {
+		super.onStart();
+	
+
+		Intent i = new Intent(this, IOIODoorLockService.class);
+		ComponentName c = startService(i);
+		Log.v(TAG,c.getClassName());
+}
 	@Override
 	protected void onPause() {
 		Log.v(TAG, "onPause");
@@ -146,6 +156,7 @@ Callback {
 		}
 
 		mSoundPool.play(mSoundID, 1, 1, 1, 0, 1f);
+		
 
 	}
 
